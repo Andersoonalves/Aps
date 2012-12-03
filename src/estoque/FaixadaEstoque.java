@@ -2,12 +2,12 @@ package estoque;
 
 import java.util.*;
 
-public class Estoque {
+public class FaixadaEstoque {
 
     private List<Produto> produtos;
     private List<Promocao> promocoes;
 
-    public Estoque() {
+    public FaixadaEstoque() {
     	produtos = new LinkedList<Produto>();
     	promocoes = new LinkedList<Promocao>();
     }
@@ -25,35 +25,7 @@ public class Estoque {
         return (getProduto(nomeOUcodigo) != null);
     }
 
-    public Promocao getPromocao(int id) {
-        for (Promocao p : promocoes) {
-            if (p.getId() == id) {
-                return p;
-            }
-        }
-        return null;
-    }
-
-    public Promocao getPromocao(String nomeOUcodigo) {
-        Produto prod = getProduto(nomeOUcodigo);
-        if (prod.getPromocao() != 0) {
-            for (Promocao p : promocoes) {
-                if (p.getId() == prod.getPromocao()) {
-                    return p;
-                }
-            }
-        }
-        return null;
-    }
-
-    private boolean contensPromocao(int id) {
-        return (getPromocao(id) != null);
-    }
-    
-    public boolean contensPromocao(String nomeOUcodigo) {
-        return (getPromocao(nomeOUcodigo) != null);
-    }
-
+   
     public boolean criar(Produto p) {
         if (!contensProduto(p.getCodigo()) && !contensProduto(p.getNome())) {
             return produtos.add(p);
@@ -68,22 +40,7 @@ public class Estoque {
         return false;
     }
 
-    public boolean criar(Promocao p, String nomeOUcodigo) {
-        Produto prod = getProduto(nomeOUcodigo);
-        if (prod.getPromocao() != 0) {
-            remover(getPromocao(prod.getPromocao()));
-        }
-        prod.setPromocao(p.getId());
-        return promocoes.add(p);
-    }
-
-    public boolean remover(Promocao p) {
-        if (contensPromocao(p.getId())) {
-           return promocoes.remove(p);
-        }
-        return false;
-    }
-    
+  
     public void zerarQuantidadeVendido(){
         for (Produto p : produtos) {
             p.setQuantidedeVendido(0.0);
@@ -108,6 +65,53 @@ public class Estoque {
             return true;
         }
         return false;
+    }
+    
+    
+    
+    public boolean criar(Promocao p, String nomeOUcodigo) {
+        Produto prod = getProduto(nomeOUcodigo);
+        if (prod.getPromocao() != 0) {
+            remover(getPromocao(prod.getPromocao()));
+        }
+        prod.setPromocao(p.getId());
+        return promocoes.add(p);
+       }
+
+    private boolean contensPromocao(int id) {
+        return (getPromocao(id) != null);
+    }
+    
+    public boolean contensPromocao(String nomeOUcodigo) {
+        return (getPromocao(nomeOUcodigo) != null);
+    }
+    
+    public boolean remover(Promocao p) {
+        if (contensPromocao(p.getId())) {
+           return promocoes.remove(p);
+        }
+        return false;
+    }
+    
+    public Promocao getPromocao(int id) {
+        for (Promocao p : promocoes) {
+            if (p.getId() == id) {
+                return p;
+            }
+        }
+        return null;
+    }
+
+    public Promocao getPromocao(String nomeOUcodigo) {
+        Produto prod = getProduto(nomeOUcodigo);
+        if (prod.getPromocao() != 0) {
+            for (Promocao p : promocoes) {
+                if (p.getId() == prod.getPromocao()) {
+                    return p;
+                }
+            }
+        }
+        return null;
     }
     
 }

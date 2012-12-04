@@ -26,7 +26,10 @@ public class FaixadaEstoque {
     }
 
    
-    public boolean criar(Produto p) {
+    public boolean criar(Produto p) throws ExeptionFachadaEstoque {
+    	if(p.getNome() == null || p.getCodigo() == null){
+    		throw new ExeptionFachadaEstoque("Nome ou Codigo não inicializados");
+    	}
         if (!contensProduto(p.getCodigo()) && !contensProduto(p.getNome())) {
             return produtos.add(p);
         }
@@ -69,14 +72,20 @@ public class FaixadaEstoque {
     
     
     
-    public boolean criar(Promocao p, String nomeOUcodigo) {
+    public boolean criar(Promocao p, String nomeOUcodigo) throws ExeptionFachadaEstoque {
         Produto prod = getProduto(nomeOUcodigo);
-        if (prod.getPromocao() != 0) {
+        
+          if (prod.getPromocao() != 0) {
             remover(getPromocao(prod.getPromocao()));
         }
+          if (p.getId() == 0){
+            throw new ExeptionFachadaEstoque("Nome ou Codigo não inicializados");
+         }
         prod.setPromocao(p.getId());
         return promocoes.add(p);
        }
+    
+    
 
     private boolean contensPromocao(int id) {
         return (getPromocao(id) != null);
